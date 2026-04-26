@@ -119,3 +119,7 @@ Organize the repo into top-level folders by artifact type (`skills/`, `agents/`,
 1. **Kits reference vs. duplicate shared artifacts?** → **Duplicate for v1**; add `references: []` to `kit.json` later if needed.
 2. **Versioning** → **Per-kit versions in `kit.json`**; standalone artifacts ride git history until demand emerges.
 3. **Categorization** → **Flat folders for now**; introduce category subfolders once any folder exceeds ~15 entries.
+4. **Kit install approach & collision prevention** → **Undecided.** Two candidate strategies:
+   - **Self-contained folder install**: copy the whole `<namespace>-<kit-name>.kit/` directory as-is into the target scope. No filename collisions since the folder itself is namespaced.
+   - **Flat artifact install**: copy each artifact into the standard `.github/agents/`, `.github/prompts/`, etc. directories. Requires namespaced artifact filenames (e.g., `<namespace>-<name>.agent.md`) to prevent collisions with artifacts from other kits or libraries.
+   Must decide before authoring the installer scripts (`install.sh`, `install.ps1`) and before mandating artifact naming conventions inside kits.
