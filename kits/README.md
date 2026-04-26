@@ -20,15 +20,13 @@ Each kit is designed to be used as a unit, typically initiated via an orchestrat
 - `walterpinson-code-review.kit/`
 - `walterpinson-azure-deploy.kit/`
 
-> **Note:** The `example-kit/` folder in this directory predates this convention and serves as the reference template. It will be renamed in a future cleanup.
-
 ---
 
 ## Available Kits
 
 | Kit | Status | Summary |
 |-----|--------|---------|
-| [example-kit](./example-kit/) | preview | Reference example demonstrating kit structure and conventions |
+| [example-kit](./example-kit.kit/) | preview | Reference example demonstrating kit structure and conventions |
 
 ---
 
@@ -132,7 +130,7 @@ See [kit.json Field Reference](../docs/kit-manifest.md) for full field documenta
 
 - **`conflicts`**: Two kits that declare each other in `conflicts` cannot both be installed in the same scope. The installer aborts if a conflict is detected.
 - **`requires`**: A kit that lists another kit in `requires` will trigger that kit's installation first. Semver ranges (`^`, `~`, exact) are supported.
-- **Naming collisions**: The install approach and collision-prevention strategy are not yet decided. Until they are, use `conflicts` to flag kits with overlapping artifact names.
+- **Naming collisions**: The `<namespace>-<kit-name>.kit/` folder naming convention is the collision-prevention strategy. Because the kit folder is globally unique by construction, artifacts inside it are isolated and do not require namespaced filenames. The installer copies the whole `.kit/` directory as a self-contained unit; use `conflicts` to flag kits whose installed artifacts would conflict at the target scope level.
 
 ---
 

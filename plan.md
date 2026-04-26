@@ -110,7 +110,7 @@ Organize the repo into top-level folders by artifact type (`skills/`, `agents/`,
 - **`entryPrompt`** → single string for v1; it is a *recommended starting point*, not an access control. For multi-workflow kits, the orchestration prompt should route the user to the right workflow rather than declaring multiple peer entries.
 
 ## Verification
-1. Create one example kit under `kits/example-kit/` with all four required files to validate the layout end-to-end.
+1. Create one example kit under `kits/example-kit.kit/` with all four required files to validate the layout end-to-end.
 2. Author the `schemas/kit.schema.json` and reference it from the example `kit.json` via `$schema`; confirm VS Code shows autocomplete.
 3. Add one example of each independent artifact type to confirm naming conventions render correctly when copied into a consuming repo's `.github/` folder.
 4. Update root `README.md` with an index/table of available skills, kits, agents, instructions, and prompts.
@@ -119,7 +119,4 @@ Organize the repo into top-level folders by artifact type (`skills/`, `agents/`,
 1. **Kits reference vs. duplicate shared artifacts?** → **Duplicate for v1**; add `references: []` to `kit.json` later if needed.
 2. **Versioning** → **Per-kit versions in `kit.json`**; standalone artifacts ride git history until demand emerges.
 3. **Categorization** → **Flat folders for now**; introduce category subfolders once any folder exceeds ~15 entries.
-4. **Kit install approach & collision prevention** → **Undecided.** Two candidate strategies:
-   - **Self-contained folder install**: copy the whole `<namespace>-<kit-name>.kit/` directory as-is into the target scope. No filename collisions since the folder itself is namespaced.
-   - **Flat artifact install**: copy each artifact into the standard `.github/agents/`, `.github/prompts/`, etc. directories. Requires namespaced artifact filenames (e.g., `<namespace>-<name>.agent.md`) to prevent collisions with artifacts from other kits or libraries.
-   Must decide before authoring the installer scripts (`install.sh`, `install.ps1`) and before mandating artifact naming conventions inside kits.
+4. **Kit collision prevention** → **Resolved.** The `<namespace>-<kit-name>.kit/` directory naming convention is the collision-prevention mechanism. The installer copies the whole `.kit/` directory as a self-contained unit into the target scope; no artifact filename namespacing is required inside the kit because the folder itself is globally unique. The `conflicts` field in `kit.json` handles cases where two kits produce overlapping effects at the target scope level.
