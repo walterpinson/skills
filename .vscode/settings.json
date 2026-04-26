@@ -1,0 +1,6 @@
+{
+  "chat.promptFilesLocations": {
+    ".github/prompts": false,
+    "prompts": true
+  }
+}

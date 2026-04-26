@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/walterpinson/skills/main/schemas/kit.schema.json",
+  "title": "Skill Kit Manifest",
+  "description": "Manifest file (kit.json) for a self-contained skill kit in the walterpinson/skills library.",
+  "type": "object",
+  "required": ["name", "namespace", "version", "author", "kind", "status", "summary", "targets", "scopes", "files"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference. Should point to the kit.schema.json in this repository."
+    },
+    "name": {
+      "type": "string",
+      "description": "Unique kit identifier, typically namespaced as '<namespace>-<kit-name>'.",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "namespace": {
+      "type": "string",
+      "description": "Vendor or owner prefix. Do NOT include a trailing dash — tooling appends it when constructing the full name.",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version string (semver).",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author name or handle.",
+      "minLength": 1
+    },
+    "kind": {
+      "type": "string",
+      "description": "Taxonomy category for the kit (e.g., 'testing', 'azure', 'devops').",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "description": "Lifecycle status of the kit.",
+      "enum": ["preview", "stable", "deprecated"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Short one-line description of what the kit does.",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional longer description in Markdown. The kit README.md remains the authoritative source of truth."
+    },
+    "keywords": {
+      "type": "array",
+      "description": "Tags used for discoverability and search.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "targets": {
+      "type": "array",
+      "description": "Target AI platforms this kit supports.",
+      "items": {
+        "type": "string",
+        "enum": ["copilot", "claude-code"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "scopes": {
+      "type": "array",
+      "description": "Supported installation destinations. When both are listed, the installer prompts the user.",
+      "items": {
+        "type": "string",
+        "enum": ["workspace", "user"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "entryPrompt": {
+      "type": "string",
+      "description": "Relative path (from kit root) to the recommended starting prompt. This is a suggestion, not a gate — all prompts remain freely invokable.",
+      "minLength": 1
+    },
+    "files": {
+      "type": "object",
+      "description": "Glob patterns (relative to kit root) that identify the kit's artifacts by type.",
+      "additionalProperties": false,
+      "properties": {
+        "agents": {
+          "type": "array",
+          "description": "Glob patterns matching agent files (*.agent.md).",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "skills": {
+          "type": "array",
+          "description": "Glob patterns matching skill files (SKILL.md and supporting assets).",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "prompts": {
+          "type": "array",
+          "description": "Glob patterns matching prompt files (*.prompt.md).",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "instructions": {
+          "type": "array",
+          "description": "Glob patterns matching instruction files (*.instructions.md).",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "requires": {
+      "type": "array",
+      "description": "Kits or artifacts this kit depends on. Use npm-style semver strings: '<namespace>-<name>@^1.0.0'.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "description": "Kits that cannot coexist with this kit. Use npm-style semver strings: '<namespace>-<name>@^1.0.0'.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}
