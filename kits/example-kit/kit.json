@@ -1,0 +1,28 @@
+{
+  "$schema": "../../schemas/kit.schema.json",
+
+  "name": "walterpinson-example-kit",
+  "namespace": "walterpinson",
+  "version": "0.0.1",
+  "author": "walterpinson",
+  "kind": "example",
+  "status": "preview",
+  "summary": "Reference example kit demonstrating the required structure and conventions for skill kits in this library.",
+  "description": "Use this kit as a starting point when authoring a new skill kit. It includes one example of each artifact type and an orchestration prompt that ties them together.",
+  "keywords": ["example", "template", "reference"],
+
+  "targets": ["copilot"],
+  "scopes": ["workspace"],
+
+  "entryPrompt": "prompts/orchestrate.prompt.md",
+
+  "files": {
+    "agents":       ["agents/*.agent.md"],
+    "skills":       ["skills/*/SKILL.md", "skills/*/template/**"],
+    "prompts":      ["prompts/*.prompt.md"],
+    "instructions": ["instructions/*.instructions.md"]
+  },
+
+  "requires":  [],
+  "conflicts": []
+}
